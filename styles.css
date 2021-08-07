@@ -65,3 +65,32 @@
   width: 50px;
   border-radius: 5px;
 }
+
+.movie-card-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.movie-card {
+  height: 300px;
+  width: 200px;
+  margin: 20px;
+  padding: 20px;
+  border: 2px solid #01b4e4;
+}
+
+@media screen and (min-width: 800px) {
+  .movie-card-area {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .movie-card {
+    height: 300px;
+    width: 200px;
+    padding: 20px;
+    border: 2px solid #01b4e4;
+  }
+}
