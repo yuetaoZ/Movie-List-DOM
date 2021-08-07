@@ -45,3 +45,23 @@
 .nav-item:hover::after {
   width: 100%;
 }
+
+.select-area {
+  margin: 0 20px;
+}
+
+.page-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-area button {
+  margin: 10px 150px;
+  color: #01b4e4;
+  background-color: white;
+  border: 1px solid #01b4e4;
+  height: 30px;
+  width: 50px;
+  border-radius: 5px;
+}
