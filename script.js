@@ -87,13 +87,22 @@ const handleMovieTitleController = (e) => {
   const movieDetailsContainer = document.querySelector(
     ".movie-details-container"
   );
-
   movieDetailsContainer.style.display = "block";
+
+  const html = document.querySelector("html");
+  html.style.backgroundColor = "grey";
+  const lis = document.querySelectorAll("li");
+  lis.forEach((li) => {
+    li.style.backgroundColor = "grey";
+  });
+  //   const imgs = document.querySelectorAll(".movie-img");
+  //   imgs.forEach((img) => {
+  //     img.style.filter = "brightness(50%)";
+  //   });
 };
 
 const handleMovieHeartIconController = (e) => {
   const heartIcon = e.target;
-  console.log(`heartIcon`, heartIcon);
   heartIcon.classList.toggle("ion-ios-heart-outline");
   heartIcon.classList.toggle("ion-ios-heart");
   const currMovieCard = heartIcon.parentNode.parentNode;
@@ -110,7 +119,6 @@ const handleMovieHeartIconController = (e) => {
 };
 
 const handleMovieCardAreaController = (e) => {
-  console.log(`e.target`, e.target);
   if (e.target.classList.contains("movie-title")) {
     handleMovieTitleController(e);
   } else if (e.target.classList.contains("movie-heart-icon")) {
@@ -124,6 +132,17 @@ const handleMovieDetailsCloseController = () => {
   );
 
   movieDetailsContainer.style.display = "none";
+
+  const html = document.querySelector("html");
+  html.style.backgroundColor = "white";
+  const lis = document.querySelectorAll("li");
+  lis.forEach((li) => {
+    li.style.backgroundColor = "white";
+  });
+  //   const imgs = document.querySelectorAll(".movie-img");
+  //   imgs.forEach((img) => {
+  //     img.style.filter = "brightness(100%)";
+  //   });
 };
 
 const handleNavBarController = (e) => {
