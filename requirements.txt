@@ -6,7 +6,7 @@
 [-] Each movie card should show the movie poster, movie title, movie rating with a star icon and outlined like icon
 [-] Clicking the "like" icon will turn the icon from outlined to solid contained red.
 [-] Hovering on the movie title will turn title to another color
-* Clicking the movie title in the card will open a movie detail modal
+[-] Clicking the movie title in the card will open a movie detail modal
 * The movie detail modal has a semi black transparent backdrop effect
 * The movie detail modal should show movie poster, movie title, movie overview, movie genres, movie rating and movie production companies logos
 * There should a close icon on the top right allowing the user to close the modal.

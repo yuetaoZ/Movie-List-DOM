@@ -68,10 +68,16 @@ const dimBackground = () => {
   lis.forEach((li) => {
     li.style.backgroundColor = "grey";
   });
-  //   const imgs = document.querySelectorAll(".movie-img");
-  //   imgs.forEach((img) => {
-  //     img.style.filter = "brightness(50%)";
-  //   });
+  const imgs = document.querySelectorAll(".movie-img");
+  imgs.forEach((img) => {
+    img.style.filter = "brightness(50%)";
+  });
+  const select = document.querySelector("select");
+  select.style.backgroundColor = "grey";
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((btn) => {
+    btn.style.backgroundColor = "grey";
+  });
 };
 
 const loadMovieData = (e) => {
@@ -146,7 +152,7 @@ const handleMovieTitleController = (e) => {
   dimBackground();
   const movieData = loadMovieData(e);
 
-  const movieDetailsCard = createMovieDetailsCard(movieData);
+  createMovieDetailsCard(movieData);
 
   const movieDetailsContainer = document.querySelector(
     ".movie-details-container"
@@ -186,10 +192,16 @@ const brightenBackgroud = () => {
   lis.forEach((li) => {
     li.style.backgroundColor = "white";
   });
-  //   const imgs = document.querySelectorAll(".movie-img");
-  //   imgs.forEach((img) => {
-  //     img.style.filter = "brightness(100%)";
-  //   });
+  const imgs = document.querySelectorAll(".movie-img");
+  imgs.forEach((img) => {
+    img.style.filter = "brightness(100%)";
+  });
+  const select = document.querySelector("select");
+  select.style.backgroundColor = "white";
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((btn) => {
+    btn.style.backgroundColor = "white";
+  });
 };
 
 const handleMovieDetailsCloseController = () => {
