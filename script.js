@@ -1,8 +1,3 @@
-// api-key: 9b2c8894f1dac9b8e9b2f47ce9f2cb67
-// use MVC
-// 1. create model, which include a movie list, a liked movie list, tags for movie type
-// 2. call API to load default movies
-
 const apiKey = "9b2c8894f1dac9b8e9b2f47ce9f2cb67";
 const baseUrl = "https://api.themoviedb.org/3/movie";
 
@@ -201,6 +196,7 @@ const brightenBackgroud = () => {
   buttons.forEach((btn) => {
     btn.style.backgroundColor = "white";
   });
+  checkButtonDisable();
 };
 
 const handleMovieDetailsCloseController = () => {
@@ -277,11 +273,32 @@ const handleDropDownController = (e) => {
   fetchMovieListFromUrl();
 };
 
+const checkButtonDisable = () => {
+  const prevBtn = document.querySelector("#prev-btn");
+  if (model.currPage === 1) {
+    prevBtn.disabled = true;
+    prevBtn.style.backgroundColor = "Gainsboro";
+  } else {
+    prevBtn.disabled = false;
+    prevBtn.style.backgroundColor = "white";
+  }
+
+  const nextBtn = document.querySelector("#next-btn");
+  if (model.currPage === model.totalPages) {
+    nextBtn.disabled = true;
+    nextBtn.style.backgroundColor = "Gainsboro";
+  } else {
+    nextBtn.disabled = false;
+    nextBtn.style.backgroundColor = "white";
+  }
+};
+
 const updateView = () => {
   const currPageDisplay = document.querySelector("#curr-page");
   currPageDisplay.innerHTML = model.currPage;
   const totalPagesDisplay = document.querySelector("#total-pages");
   totalPagesDisplay.innerHTML = model.totalPages;
+  checkButtonDisable();
   const movieCardContainer = getMovieCardArea();
   movieCardContainer.innerHTML = "";
   const movieList = model.movieList;
