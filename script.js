@@ -8,8 +8,8 @@ const baseUrl = "https://api.themoviedb.org/3/movie";
 
 const TABS = {
   POPULAR: "popular",
-  NOWPLAYING: "nowplaying",
-  TOPRATED: "toprated",
+  NOWPLAYING: "now_playing",
+  TOPRATED: "top_rated",
   UPCOMING: "upcoming",
 };
 
@@ -223,7 +223,7 @@ const handleNavBarController = (e) => {
 
 const fetchMovieListFromUrl = () => {
   const url = `${baseUrl}/${model.activeTab}?api_key=${apiKey}&language=en-US&page=${model.currPage}`;
-  const data = fetch(url)
+  fetch(url)
     .then((resp) => {
       return resp.json();
     })
@@ -252,6 +252,28 @@ const handlePrevButtonController = () => {
     model.currPage--;
   }
   currPageDisplay.innerHTML = model.currPage;
+  fetchMovieListFromUrl();
+};
+
+const handleDropDownController = (e) => {
+  const dropDownValue = e.target.value;
+  switch (dropDownValue) {
+    case "popular":
+      model.activeTab = TABS.POPULAR;
+      break;
+    case "now-playing":
+      model.activeTab = TABS.NOWPLAYING;
+      break;
+    case "top-rated":
+      model.activeTab = TABS.TOPRATED;
+      break;
+    case "upcoming":
+      model.activeTab = TABS.UPCOMING;
+      break;
+    default:
+      model.activeTab = TABS.POPULAR;
+  }
+  model.currPage = 1;
   fetchMovieListFromUrl();
 };
 
@@ -308,6 +330,7 @@ const loadEvents = () => {
   const navBar = document.querySelector(".nav-bar");
   const nextBtn = document.querySelector("#next-btn");
   const prevBtn = document.querySelector("#prev-btn");
+  const dropDown = document.querySelector("#drop-down");
 
   movieCard.addEventListener("click", handleMovieCardAreaController);
   movieDetailsClose.addEventListener(
@@ -317,6 +340,7 @@ const loadEvents = () => {
   navBar.addEventListener("click", handleNavBarController);
   nextBtn.addEventListener("click", handleNextButtonController);
   prevBtn.addEventListener("click", handlePrevButtonController);
+  dropDown.addEventListener("change", handleDropDownController);
 };
 
 loadDefaultData();
