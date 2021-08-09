@@ -97,6 +97,7 @@ const loadProvidersLogo = (movieId) => {
       const productionLogoArea = document.querySelector(
         ".production-logos-area"
       );
+      productionLogoArea.innerHTML = "";
       const productionCompanies = data.production_companies;
       productionCompanies.forEach((company) => {
         const logoPath = company.logo_path;
@@ -124,6 +125,7 @@ const createMovieDetailsCard = (movieData) => {
   const movieDescription = document.querySelector(".movie-details-description");
   movieDescription.innerHTML = movieData.overview;
   const genreContainer = document.querySelector(".genres-container");
+  genreContainer.innerHTML = "";
   const genreIds = movieData.genre_ids;
   genreIds.forEach((genreId) => {
     const genreItemCollection = Object.values(model.genres).filter(
