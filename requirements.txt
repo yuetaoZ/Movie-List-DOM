@@ -7,10 +7,10 @@
 [-] Clicking the "like" icon will turn the icon from outlined to solid contained red.
 [-] Hovering on the movie title will turn title to another color
 [-] Clicking the movie title in the card will open a movie detail modal
-* The movie detail modal has a semi black transparent backdrop effect
-* The movie detail modal should show movie poster, movie title, movie overview, movie genres, movie rating and movie production companies logos
-* There should a close icon on the top right allowing the user to close the modal.
-* There should be a pagination section with a "prev", a "next" button and a text of current page and total page
+[-] The movie detail modal has a semi black transparent backdrop effect
+[-] The movie detail modal should show movie poster, movie title, movie overview, movie genres, movie rating and movie production companies logos
+[-] There should a close icon on the top right allowing the user to close the modal.
+[-] There should be a pagination section with a "prev", a "next" button and a text of current page and total page
 * Clicking on the next button will load next page of movies for current category
 * Clicking on the prev button will load prev page of movies for current category
 * The perv button should be disabled when it is the first page

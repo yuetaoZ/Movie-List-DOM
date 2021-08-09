@@ -7,10 +7,10 @@ const apiKey = "9b2c8894f1dac9b8e9b2f47ce9f2cb67";
 const baseUrl = "https://api.themoviedb.org/3/movie";
 
 const TABS = {
-  POPULAR: "POPULAR",
-  NOWPLAYING: "NOWPLAYING",
-  TOPRATED: "TOPRATED",
-  UPCOMING: "UPCOMING",
+  POPULAR: "popular",
+  NOWPLAYING: "nowplaying",
+  TOPRATED: "toprated",
+  UPCOMING: "upcoming",
 };
 
 const model = {
@@ -19,6 +19,7 @@ const model = {
   activeTab: TABS.POPULAR,
   genres: {},
   currPage: 1,
+  totalPages: 500,
 };
 
 const getMovieCardArea = () => document.querySelector(".movie-card-area");
@@ -105,7 +106,6 @@ const loadProvidersLogo = (movieId) => {
       productionCompanies.forEach((company) => {
         const logoPath = company.logo_path;
         if (logoPath !== null) {
-          console.log(`logoPath`, logoPath);
           const logoUrl = `https://image.tmdb.org/t/p/w200${logoPath}`;
           const logoItem = document.createElement("div");
           logoItem.className = "production-logo-item";
@@ -144,7 +144,6 @@ const createMovieDetailsCard = (movieData) => {
   });
   const movieRating = document.querySelector(".movie-details-rating");
   movieRating.innerHTML = movieData.vote_average;
-  console.log(`movieData`, movieData);
   loadProvidersLogo(movieData.id);
 };
 
@@ -217,11 +216,50 @@ const handleNavBarController = (e) => {
     loadDefaultData();
   } else if (e.target.classList.contains("liked-list-button")) {
     model.movieList = model.likedMovieList;
+    model.currPage = 1;
     updateView();
   }
 };
 
+const fetchMovieListFromUrl = () => {
+  const url = `${baseUrl}/${model.activeTab}?api_key=${apiKey}&language=en-US&page=${model.currPage}`;
+  const data = fetch(url)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      model.movieList = data.results;
+      updateView();
+    });
+};
+
+const handleNextButtonController = () => {
+  const currPageDisplay = document.querySelector("#curr-page");
+  if (model.currPage < 500) {
+    model.currPage++;
+  } else {
+    model.currPage = 1;
+  }
+  currPageDisplay.innerHTML = model.currPage;
+  fetchMovieListFromUrl();
+};
+
+const handlePrevButtonController = () => {
+  const currPageDisplay = document.querySelector("#curr-page");
+  if (model.currPage <= 1) {
+    model.currPage = 500;
+  } else {
+    model.currPage--;
+  }
+  currPageDisplay.innerHTML = model.currPage;
+  fetchMovieListFromUrl();
+};
+
 const updateView = () => {
+  const currPageDisplay = document.querySelector("#curr-page");
+  currPageDisplay.innerHTML = model.currPage;
+  const totalPagesDisplay = document.querySelector("#total-pages");
+  totalPagesDisplay.innerHTML = model.totalPages;
   const movieCardContainer = getMovieCardArea();
   movieCardContainer.innerHTML = "";
   const movieList = model.movieList;
@@ -251,12 +289,14 @@ const getPopularMovieList = (page) => {
     })
     .then((data) => {
       model.movieList = data.results;
+      model.totalPages = data.total_pages;
     });
 };
 
 const loadDefaultData = () => {
   getGereList().then(() => {
     getPopularMovieList(1).then(() => {
+      model.currPage = 1;
       updateView();
     });
   });
@@ -266,6 +306,8 @@ const loadEvents = () => {
   const movieCard = document.querySelector(".movie-card-area");
   const movieDetailsClose = document.querySelector(".movie-details-close-icon");
   const navBar = document.querySelector(".nav-bar");
+  const nextBtn = document.querySelector("#next-btn");
+  const prevBtn = document.querySelector("#prev-btn");
 
   movieCard.addEventListener("click", handleMovieCardAreaController);
   movieDetailsClose.addEventListener(
@@ -273,6 +315,8 @@ const loadEvents = () => {
     handleMovieDetailsCloseController
   );
   navBar.addEventListener("click", handleNavBarController);
+  nextBtn.addEventListener("click", handleNextButtonController);
+  prevBtn.addEventListener("click", handlePrevButtonController);
 };
 
 loadDefaultData();
