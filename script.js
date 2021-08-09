@@ -23,28 +23,6 @@ const model = {
 
 const getMovieCardArea = () => document.querySelector(".movie-card-area");
 
-const getGereList = () => {
-  const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
-  return fetch(url)
-    .then((resp) => {
-      return resp.json();
-    })
-    .then((data) => {
-      model.genres = { ...data.genres };
-    });
-};
-
-const getPopularMovieList = (page) => {
-  const url = `${baseUrl}/popular?api_key=${apiKey}&language=en-US&page=${page}`;
-  return fetch(url)
-    .then((resp) => {
-      return resp.json();
-    })
-    .then((data) => {
-      model.movieList = data.results;
-    });
-};
-
 const createMovieCard = (data) => {
   const movieCard = document.createElement("div");
   movieCard.className = "movie-card";
@@ -83,12 +61,7 @@ const createMovieCard = (data) => {
   return movieCard;
 };
 
-const handleMovieTitleController = (e) => {
-  const movieDetailsContainer = document.querySelector(
-    ".movie-details-container"
-  );
-  movieDetailsContainer.style.display = "block";
-
+const dimBackground = () => {
   const html = document.querySelector("html");
   html.style.backgroundColor = "grey";
   const lis = document.querySelectorAll("li");
@@ -99,6 +72,56 @@ const handleMovieTitleController = (e) => {
   //   imgs.forEach((img) => {
   //     img.style.filter = "brightness(50%)";
   //   });
+};
+
+const loadMovieData = (e) => {
+  const movieTitle = e.target.innerHTML;
+  const movieDataList = model.movieList.filter((movie) => {
+    return movie.title === movieTitle;
+  });
+
+  if (movieDataList.length > 0) {
+    return movieDataList[0];
+  }
+
+  return null;
+};
+
+const createMovieDetailsCard = (movieData) => {
+  const movieDetailsCard = document.querySelector(".movie-details-card");
+  const movieImg = document.querySelector(".movie-details-img");
+  const poster_path = movieData.poster_path;
+  movieImg.src = `https://image.tmdb.org/t/p/w500${poster_path}`;
+  const movieTitle = document.querySelector(".movie-details-title");
+  movieTitle.innerHTML = movieData.title;
+  const movieDescription = document.querySelector(".movie-details-description");
+  movieDescription.innerHTML = movieData.overview;
+  const genreContainer = document.querySelector(".genres-container");
+  const genreIds = movieData.genre_ids;
+  genreIds.forEach((genreId) => {
+    const genreItemCollection = Object.values(model.genres).filter(
+      (genre) => genre.id === genreId
+    );
+    if (genreItemCollection.length > 0) {
+      const genreName = genreItemCollection[0].name;
+      const genreItem = document.createElement("div");
+      genreItem.className = "genre-item";
+      genreItem.innerHTML = genreName;
+      genreContainer.appendChild(genreItem);
+    }
+  });
+};
+
+const handleMovieTitleController = (e) => {
+  dimBackground();
+  const movieData = loadMovieData(e);
+
+  const movieDetailsCard = createMovieDetailsCard(movieData);
+
+  const movieDetailsContainer = document.querySelector(
+    ".movie-details-container"
+  );
+  movieDetailsContainer.style.display = "block";
 };
 
 const handleMovieHeartIconController = (e) => {
@@ -126,13 +149,7 @@ const handleMovieCardAreaController = (e) => {
   }
 };
 
-const handleMovieDetailsCloseController = () => {
-  const movieDetailsContainer = document.querySelector(
-    ".movie-details-container"
-  );
-
-  movieDetailsContainer.style.display = "none";
-
+const brightenBackgroud = () => {
   const html = document.querySelector("html");
   html.style.backgroundColor = "white";
   const lis = document.querySelectorAll("li");
@@ -143,6 +160,14 @@ const handleMovieDetailsCloseController = () => {
   //   imgs.forEach((img) => {
   //     img.style.filter = "brightness(100%)";
   //   });
+};
+
+const handleMovieDetailsCloseController = () => {
+  brightenBackgroud();
+  const movieDetailsContainer = document.querySelector(
+    ".movie-details-container"
+  );
+  movieDetailsContainer.style.display = "none";
 };
 
 const handleNavBarController = (e) => {
@@ -163,6 +188,28 @@ const updateView = () => {
     movieCard.indexRecord = i;
     movieCardContainer.appendChild(movieCard);
   }
+};
+
+const getGereList = () => {
+  const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
+  return fetch(url)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      model.genres = { ...data.genres };
+    });
+};
+
+const getPopularMovieList = (page) => {
+  const url = `${baseUrl}/popular?api_key=${apiKey}&language=en-US&page=${page}`;
+  return fetch(url)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      model.movieList = data.results;
+    });
 };
 
 const loadDefaultData = () => {

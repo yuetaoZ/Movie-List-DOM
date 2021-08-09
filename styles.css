@@ -182,13 +182,14 @@
   margin: 0.5em 0;
 }
 
-.genres-area {
+.genres-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .genre-item {
   height: 30px;
-  margin-right: 10px;
+  margin: 5px;
   padding: 5px 10px;
   color: white;
   background-color: #90cea1;
