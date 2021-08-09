@@ -6,10 +6,21 @@
 
 .production-logos-area {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .production-logo-item {
-  margin: 10px;
+  height: 50px;
+  width: 50px;
+  margin: 0 10px;
+}
+
+.production-logo-img {
+  width: 100%;
+  height: 100%;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  object-fit: contain;
 }
 
 .nav-area {

@@ -87,8 +87,34 @@ const loadMovieData = (e) => {
   return null;
 };
 
+const loadProvidersLogo = (movieId) => {
+  const movieDetailUrl = `${baseUrl}/${movieId}?api_key=${apiKey}`;
+  fetch(movieDetailUrl)
+    .then((resp) => resp.json())
+    .then((data) => {
+      const productionLogoArea = document.querySelector(
+        ".production-logos-area"
+      );
+      const productionCompanies = data.production_companies;
+      productionCompanies.forEach((company) => {
+        const logoPath = company.logo_path;
+        if (logoPath !== null) {
+          console.log(`logoPath`, logoPath);
+          const logoUrl = `https://image.tmdb.org/t/p/w200${logoPath}`;
+          const logoItem = document.createElement("div");
+          logoItem.className = "production-logo-item";
+          const logoImg = document.createElement("img");
+          logoImg.src = logoUrl;
+          logoImg.alt = "logo-img";
+          logoImg.className = "production-logo-img";
+          logoItem.appendChild(logoImg);
+          productionLogoArea.appendChild(logoItem);
+        }
+      });
+    });
+};
+
 const createMovieDetailsCard = (movieData) => {
-  const movieDetailsCard = document.querySelector(".movie-details-card");
   const movieImg = document.querySelector(".movie-details-img");
   const poster_path = movieData.poster_path;
   movieImg.src = `https://image.tmdb.org/t/p/w500${poster_path}`;
@@ -110,6 +136,10 @@ const createMovieDetailsCard = (movieData) => {
       genreContainer.appendChild(genreItem);
     }
   });
+  const movieRating = document.querySelector(".movie-details-rating");
+  movieRating.innerHTML = movieData.vote_average;
+  console.log(`movieData`, movieData);
+  loadProvidersLogo(movieData.id);
 };
 
 const handleMovieTitleController = (e) => {
